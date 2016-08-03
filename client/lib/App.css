@@ -1,23 +1,8 @@
 body {
   font-family: 'Oxygen', sans-serif;
-}
-
-.payment_form {
-  display: inline-block;
-  margin: 0 auto;
-}
-
-.form_row {
-  white-space: nowrap;
-  display: flex;
-  align-items: flex-end;
-  height: 60px;
-}
-
-.label {
-  position: absolute;
-  font-size: 0.7rem;
-  margin: 4px 7px;
+  width: 100%;
+  height: 100%;
+  margin: 0;
 }
 
 input {
@@ -58,84 +43,4 @@ button {
 
 button:focus {
   outline: none;
-}
-
-.form_input {
-  margin: 6px;
-  display: block;
-}
-
-.form_submit {
-  margin: 6px auto;
-  float: right;
-  display: block;
-}
-
-.card_number {
-  position: relative;
-}
-
-.card_input {
-  width: 252px;
-  outline: none;
-  font-size: 1.2rem;
-  color: #555;
-  padding: 4px;
-}
-
-.card_input::-webkit-input-placeholder {
-  letter-spacing: 0.12rem;
-}
-
-.card_icon {
-  position: absolute;
-  top: 12px;
-  right: 8px;
-  font-size: 1.4rem;
-  color: rgb(150,200,255);
-  pointer-events: none;
-}
-
-.card_icon.invalid {
-  color: rgb(255,150,150);
-}
-
-.card_icon.valid {
-  color: rgb(100,200,150);
-}
-
-.card_cvn {
-  width: 50px;
-}
-
-.card_exp_month {
-  width: 40px;
-  display: inline-block;
-}
-
-.card_exp_year {
-  width: 40px;
-  display: inline-block;
-}
-
-.date_slash {
-  font-size: 1.4rem;
-}
-
-.error {
-  font-size: 0.9rem;
-  white-space: normal;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.error_text {
-  color: white;
-  background-color: rgb(255,150,150);
-  padding: 7px;
-}
-
-.card_cvn::-webkit-input-placeholder {
-  letter-spacing: 0.1rem;
 }
