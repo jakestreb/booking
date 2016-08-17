@@ -52,19 +52,24 @@ button:focus {
 .form_row {
   white-space: nowrap;
   display: flex;
-  align-items: flex-end;
-  height: 60px;
+  flex-direction: column;
+  margin-bottom: 5px;
 }
 
 .label {
-  position: absolute;
-  font-size: 0.7rem;
-  margin: 4px 7px;
+  font-size: 0.8rem;
+  margin: 0 4px;
 }
 
 .form_input {
-  margin: 6px;
+  margin: 2px;
   display: block;
+}
+
+.error {
+  font-size: 0.8rem;
+  margin: 0 4px;
+  color: rgb(200,100,100);
 }
 
 .form_submit {
@@ -110,33 +115,8 @@ button:focus {
   width: 50px;
 }
 
-.exp_month {
-  width: 40px;
-  display: inline-block;
-}
-
-.exp_year {
-  width: 40px;
-  display: inline-block;
-}
-
-.date_slash {
-  font-size: 1.4rem;
-  margin: 10px 0;
-}
-
-.error {
-  font-size: 0.8rem;
-  white-space: normal;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.error_text {
-  color: white;
-  background-color: rgb(255,150,150);
-  padding: 7px;
+.expiry {
+  width: 80px;
 }
 
 .card_cvn::-webkit-input-placeholder {

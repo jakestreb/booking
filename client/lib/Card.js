@@ -1,6 +1,8 @@
 "use strict";
 
 const _ = require("underscore");
+const http = require("http");
+const crypto = require("crypto");
 const ReactDOM = require("react-dom");
 const React = require("react");
 const cards = require("./cardData.js").cards;
@@ -69,7 +71,7 @@ function CardForm() {
   const CardEntry = props => {
     var valid = this.state.cardValidity.valid;
     var validClass = valid === null ? "" : (valid ? "valid" : "invalid");
-    return <div>
+    return <div className="card_row">
       <FormInput
         value={props.value}
         validity={this.state.cardValidity}
@@ -94,8 +96,10 @@ function CardForm() {
   };
 
   // Credit Card Form
-  const BillingForm = props => (
-    <form className="payment_form" onSubmit={props.onSubmit.bind(this)} >
+  const BillingForm = props => {
+    var cardType = this.state.cardType;
+    var cvnLength = cardType ? cards[cardType].cvnLength : null;
+    return <form className="payment_form" onSubmit={props.onSubmit.bind(this)} >
       <CardEntry
         value={this.state.cardNum}
         cardType={this.state.cardType}
@@ -104,12 +108,9 @@ function CardForm() {
         value={this.state.cvnNum}
         validity={this.state.cvnValidity}
         setValidity={this.setCvnValidity.bind(this)}
-        placeholder={"\u2022".repeat(props.cardType ? cards[props.cardType].cvnLength : 3)}
+        placeholder={"\u2022".repeat(cvnLength || 3)}
         className="card_cvn"
-        parse={input => {
-          var limit = props.cardType ? cards[props.cardType].cvnLength : 4;
-          return input.replace(/[^0-9]/g, "").slice(0, limit);
-        }}
+        format={input => input.replace(/[^0-9]/g, "").slice(0, cvnLength || 4)}
         fieldName="cvnNum"
         label="Security Code"
       />
@@ -138,8 +139,8 @@ function CardForm() {
         label="Expiry"
       />
       <button type="submit" className="form_submit" >Submit</button>
-    </form>
-  );
+    </form>;
+  };
   BillingForm.propTypes = {
     onSubmit: React.PropTypes.func.isRequired
   };
@@ -157,6 +158,28 @@ function CardForm() {
 CardForm.prototype.onFormSubmit = function(e) {
   e.preventDefault();
   console.warn(this.state);
+};
+
+CardForm.prototype.authorize = function() {
+  var paymentData = {
+    cardNumber: "4111111111111111"
+  };
+
+  var xhr = new XMLHttpRequest();
+  xhr.open("post", "/authorize", true);
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhr.addEventListener("error", function(evt) {
+    reject(new Error("Upload failed!"));
+  });
+  xhr.addEventListener("load", function() {
+    console.log("load event: " + xhr.responseText);
+    if (xhr.status !== 200) {
+      reject(new Error("Upload failed: " + (xhr.responseText || xhr.status)));
+    } else {
+      resolve(JSON.parse(xhr.responseText));
+    }
+  });
+  xhr.send(JSON.stringify(paymentData));
 };
 
 CardForm.prototype.setCardStateProp = function(prop, val) {
@@ -220,7 +243,7 @@ CardForm.prototype.setNameValidity = function() {
   this.setCardState({
     nameValidity: {
       message: null,
-      valid: !!this.state.name
+      valid: this.state.name.length ? true : null
     }
   });
 };
