@@ -4,10 +4,8 @@ const Card = require("./Card.js");
 const Booking = require("./Booking.js");
 
 function App() {
-  var form = new CardForm();
-
+  var form = new Card();
 }
-
 
 // Email
 // <input class="email"/>
